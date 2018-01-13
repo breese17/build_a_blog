@@ -27,17 +27,17 @@ def index():
     if request.method == 'POST':
         new_entry_title = request.form['titles']
         new_entry_body = request.form['body']
-        if new_entry_title != 0:
-            new_entry_title=new_entry_title
-        elif new_entry_body !=0:
-            new_entry_body=new_entry_body
-            new_entry = Blog(new_entry_title, new_entry_body)
+        new_entry = Blog(new_entry_title, new_entry_body)
+        if len(new_entry_title)!= 0 and len(new_entry_body)!=0:
+                 
             db.session.add(new_entry)
             db.session.commit()
             new_blog = '/new?id=' + str(new_entry.id)
             return redirect (new_blog)
-        else: 
-            return render_template('blog_entry.html')
+        else:
+            error= "You must enter both a Title and Blog"
+            return render_template('blog_entry.html', error=error) 
+            
             
 
     else:
